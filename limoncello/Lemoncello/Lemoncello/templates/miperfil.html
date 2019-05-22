@@ -1,0 +1,28 @@
+{% extends 'perfil.html' %}
+
+{% block content %}
+
+   <div class="container">    
+   	<div class="row">
+   		<div class="panel panel-default">
+   			<div class="panel-heading">  <h4 >Mi perfil</h4></div>
+   			<div class="panel-body">
+                      <div class="col-md-4 col-xs-12 col-sm-6 col-lg-4">
+                       <img alt="User Pic" src="media/img/iconoprofe.png" id="profile-image1" class="img-responsive"> 
+                      </div>
+                      <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8" >
+                          <div class="container" >
+                            <h2>{{ nombre }}</h2>
+                            <b>Profesor</b>
+                          </div>
+                           <hr>
+                          <ul class="container details" >
+                            <li><p><span class="glyphicon glyphicon-user one" style="width:50px;"></span>{{ usuario }}</p></li>
+                            <li><p><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span>{{ correo }}</p></li>
+                          </ul>
+                          <hr>
+                      </div>
+                </div>
+            </div>
+            </div>
+{% endblock %}

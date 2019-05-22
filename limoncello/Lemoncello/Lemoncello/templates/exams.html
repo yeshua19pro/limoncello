@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block content %}   
+  <div class="content container">
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link " id="nav-proximos-tab" data-toggle="tab" href="#nav-proximos" role="tab" aria-controls="nav-proximos" aria-selected="true">Próximos exámenes
+        <span data-feather="calendar"></span>
+      </a>
+        <a class="nav-item nav-link active" id="nav-crear-tab" data-toggle="tab" href="#nav-crear" role="tab" aria-controls="nav-crear" aria-selected="false">Crear Examen
+          <span data-feather="plus"></span>
+        </a>
+        <a class="nav-item nav-link" id="nav-historial-tab" data-toggle="tab" href="#nav-historial" role="tab" aria-controls="nav-historial" aria-selected="false">Historial</a>
+      </div>
+    </nav>
+  
+    <div class="tab-content" id="nav-tabContent">
+
+      <div class="tab-pane fade " id="nav-proximos" role="tabpanel" aria-labelledby="nav-proximos-tab">
+        <h1 class="display-4">Próximos</h1>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <td>Curso</td>
+            </tr>
+          </thead>
+
+          <tbody>
+            <h2>No hay registros de próximos</h2>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-pane fade show active" id="nav-crear" role="tabpanel" aria-labelledby="nav-crear-tab">
+        <h1 class="display-4">Crear exámenes</h1>
+
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom"></div>
+
+        <div class="container-fluid">
+              
+              <form method="POST" onsubmit="openModal()" id="examForm"> {% csrf_token %}
+
+                <div class="container">
+                  <div class="row">
+                    <label>{{ form.fecha.label }} </label>
+                    <div class="col-md-4">
+                      {{ form.fecha }}  
+                    </div>
+                    <label>{{ form.curso.label }}</label>
+                    <div class="col-md-4">
+                      {{ form.curso }}  
+                    </div>
+                  </div>
+                </div>
+
+                <div class="container">
+                  <div class="row">
+                    <label>{{ form.tipo.label }} </label>
+                    <div class="col-md-4">
+                      {{ form.tipo }}  
+                    </div>
+                    <label>{{ form.dificultad.label }}</label>
+                    <div class="col-md-4">
+                      {{ form.dificultad }}  
+                    </div>
+                  </div>
+                </div>
+
+                <div class="container">
+                  <h4>Estructura</h4>
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <td></td>
+                        <td>Componente</td>
+                        <td>Secciones</td>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr>
+                        <td>{{ form.lstng }}</td>
+                        <td>{{ form.lstng.label }}</td>
+                        <td>{{ form.lisnum }}</td>
+                      </tr>
+                      <tr>
+                        <td>{{ form.read }}</td>
+                        <td>{{ form.read.label }}</td>
+                        <td>{{ form.readnum }}</td>
+                      </tr>
+                      <tr>
+                        <td>{{ form.strc }}</td>
+                        <td>{{ form.strc.label }}</td>
+                        <td>{{ form.strcnum }}</td>
+                      </tr>
+                      <tr>
+                        <td>{{ form.wrt }}</td>
+                        <td>{{ form.wrt.label }}</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Crear</button>
+              </form>
+            </div>
+          </div> <!--Crear Examenes-->
+                
+      <div class="tab-pane fade" id="nav-historial" role="tabpanel" aria-labelledby="nav-historial-tab">
+        <h1 class="display-4">Historial</h1>
+
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <td>Serial</td>
+              <td>Fecha</td>
+              <td>Tipo</td>
+              <td>Curso</td>
+              <td>Estudiante</td>
+              <td>Profesor</td>
+              <td>PDF</td>
+            </tr>
+          </thead>
+
+      <tbody>
+        {% if examen %}
+        {% for e in examen %}
+        <tr>
+          <td>{{ e.serial }}</td>
+          <td>{{ e.fecha }}</td>
+          <td>{{ e.tipoexamen }}</td>
+          <td>{{ e.id_curso }}</td>
+          <td>{{ e.nombre }}</td>
+          <td>{{ e.profesor }}</td>
+          <td>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ e.id_estudiante }}">PDF</button>
+          </td>
+        </tr>
+
+        <div class="modal fade" id="{{ e.id_estudiante }}" tabindex="-1" role="dialog" aria-labelledby="{{ e.nombre }}" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="{{ e.nombre }}">{{ e.tipoexamen }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <embed src="{{ e.pdf.url }}" type="application/pdf"   height="300px" width="100%" class="responsive">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">
+                      <a href="{{ e.pdf.url }}" target="_blank">Abrir</a>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+
+        {% else %}
+        <h2>No hay registros de exámenes</h2>
+        {% endif %}
+
+      </tbody>
+      </table>
+      </div>
+    </div>
+    </div>
+
+<script>
+function openModal() {
+  alert('Los exámenes han sido generados con éxito');
+}
+</script>
+{% endblock %}

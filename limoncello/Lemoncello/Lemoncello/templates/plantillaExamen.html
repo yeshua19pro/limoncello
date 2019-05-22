@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <style type="text/css">
+            body {
+                font-weight: 200;
+                font-size: 14px;
+            }
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;  
+            }
+            .title span {
+                color: #007cae;
+            }
+            .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+        </style>
+    </head>
+    <body>
+        <div class='wrapper'>           
+            <div class='header'>
+                <p class='title'>{{ title }}</p>
+            </div>
+            
+             <div class='details'>
+                <p>{{ serial }}</p>
+                <p>Grade: _____ </p>
+                <hr/>
+                <p>Name: </p>
+                <p>{{ name }}</p>
+                <p>Date: </p>
+                <p>{{ date }}</p>
+                <p>Schedule: </p>
+                <p>{{ schedule }}</p>
+                <p>Teacher: </p>
+                <p>{{ teacher}} </p>
+                <p>Couse: </p>
+                <p>{{ course }}</p>
+                <hr/>
+
+                {% if modL %}
+                {% for l in modL %}
+                    <h2>{{ l.tipo }}</h2>
+                    
+                    {% if contL %}
+                        <p>{{ contL.enunciado }}</p>
+                        <p>{{ contL.imagen }}</p>
+                    {% endif %}
+
+                    {% if pl %}
+                    {% for p in pl %}
+                        <p>{{ p.enunciado }}</p>
+                    {% endfor %}
+                    {% endif %}
+                {% endfor %}
+                {% endif %}
+
+                {% if wrt %}
+                {% for w in wrt %}
+                    <h2>{{ w.tipo }}</h2>
+                    <p>{{ w.enunciado }}</p>
+                {% endfor%}
+                {% endif %}
+             </div>        
+        </div>
+    </body>
+</html>

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content container">
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-contenido-tab" data-toggle="tab" href="#nav-contenido" role="tab" aria-controls="nav-contenido" aria-selected="true">Contenidos
+        <span data-feather="calendar"></span>
+      </a>
+        <a class="nav-item nav-link" id="nav-pregunta-tab" data-toggle="tab" href="#nav-pregunta" role="tab" aria-controls="nav-pregunta" aria-selected="false">Preguntas
+          <span data-feather="plus"></span>
+        </a>
+        <a class="nav-item nav-link" id="nav-respuesta-tab" data-toggle="tab" href="#nav-respuesta" role="tab" aria-controls="nav-respuesta" aria-selected="false">Respuestas</a>
+      </div>
+    </nav>
+
+    <div class="tab-content" id="nav-tabContent">
+  		<div class="tab-pane fade show active" id="nav-contenido" role="tabpanel" aria-labelledby="nav-contenido-tab">
+  			<h1 class="display-4">Contenidos</h1>
+		    <table class="table table-bordered">
+		  	<thead>
+				<tr>
+					<td>Tipo</td>
+					<td>Dificultad</td>
+					<td>Enunciado</td>
+					<td>idioma</td>
+					<td>Curso</td>
+					<td>id</td>				
+				</tr>
+			</thead>
+
+			<tbody>
+				{% if contenidos %}
+				{% for c in contenidos %}
+				<tr>
+					<td>{{ c.tipo }}</td>
+					<td>{{ c.dificultad }}</td>
+					<td>{{ c.enunciado }}</td>
+					<td>{{ c.idioma }}</td>
+					<td>{{ c.curso }}</td>
+					<td>{{ c.id }}</td>
+					<td>{{ c.seccion }}</td>
+				</tr>
+				{% endfor %}
+				{% else %}
+				<h2>No hay registros de contenidos</h2>
+
+				{% endif %}
+
+				{% if wrt %}
+				{% for w in wrt %}
+				<tr>
+					<td>{{ w.tipo }}</td>
+					<td>{{ w.dificultad }}</td>
+					<td>{{ w.enunciado }}</td>
+					<td>{{ w.idioma }}</td>
+					<td>{{ w.curso }}</td>
+					<td>{{ w.id }}</td>
+				</tr>
+				{% endfor %}
+				{% endif %}
+			</tbody>
+			</table>
+  		</div>
+
+  		<div class="tab-pane fade show" id="nav-pregunta" role="tabpanel" aria-labelledby="nav-pregunta-tab">
+  			<h1 class="display-4">Preguntas</h1>
+		    <table class="table table-bordered">
+		  	<thead>
+				<tr>
+					<td>Id</td>
+					<td>Tipo</td>
+					<td>Enunciado</td>
+					<td>idioma</td>
+					<td>Contenido</td>
+					<td>Sección</td>
+					<td>Respuesta</td>
+					<td>Imagen</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% if preguntas %}
+				{% for p in preguntas  %}
+				<tr>
+					<td>{{ p.id }}</td>
+					<td>{{ p.tipo }}</td>
+					<td>{{ p.enunciado }}</td>
+					<td>{{ p.idioma }}</td>
+					<td>{{ p.contenido.id }}</td>
+					<td>{{ p.seccion.id }}</td>
+					{% for r in respuestas %}
+						{% if r.pregunta.id == p.id and r.es_correcta %}
+							<td>{{ r.enunciado }}</td>
+						{% endif %}
+					{% endfor %}
+					{% if p.seccion.image %}
+						<td><img src="{{ p.seccion.image.url }}"></td>
+					{% endif %}
+					{}
+				</tr>
+				{% endfor %}
+
+				{% else %}
+				<h2>No hay registros de preguntas</h2>
+
+				{% endif %}
+			</tbody>
+			</table>
+  		</div>
+
+  		<div class="tab-pane fade show" id="nav-respuesta" role="tabpanel" aria-labelledby="nav-respuesta-tab">
+  			
+  		</div>
+  	</div>
+{% endblock %}

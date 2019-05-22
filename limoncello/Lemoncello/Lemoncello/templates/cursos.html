@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-cursos" role="tab" aria-controls="nav-cursos" aria-selected="true">Cursos</a>
+    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profesores" role="tab" aria-controls="nav-profesores" aria-selected="false">Profesores</a>
+    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-estudiantes" role="tab" aria-controls="nav-estudiantes" aria-selected="false">Estudiantes</a>
+  </div>
+</nav>
+
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-cursos" role="tabpanel" aria-labelledby="nav-cursos-tab">
+
+  	<h1 class="display-4">Cursos</h1>
+    <table class="table table-bordered">
+  	<thead>
+		<tr>
+			<td>Curso</td>
+			<td>Hora inicio</td>
+			<td>Hora fin</td>
+			<td>Catálogo</td>
+			<td>Días</td>
+			<td>Idioma</td>
+			<td>Profesor</td>
+			<td>Fecha inicio</td>
+			<td>Fecha fin</td>
+		</tr>
+	</thead>
+
+	<tbody>
+		{% if cursos %}
+		{% for curso in cursos %}
+		<tr>
+			<td>{{ curso.curso }}</td>
+			<td>{{ curso.horaInicio }}</td>
+			<td>{{ curso.horaFin }}</td>
+			<td>{{ curso.catalogo }}</td>
+			<td>{{ curso.dias }}</td>
+			<td>{{ curso.idioma }}</td>
+			<td>{{ curso.profesor }}</td>
+			<td>{{ curso.fechaInicio }}</td>
+			<td>{{ curso.fechaFin }}</td>
+		</tr>
+		{% endfor %}
+
+		{% else %}
+		<h2>No hay registros de cursos</h2>
+
+		{% endif %}
+	</tbody>
+	</table>
+  </div>
+
+  <div class="tab-pane fade" id="nav-profesores" role="tabpanel" aria-labelledby="nav-profesores-tab">
+  	<h1 class="display-4">Profesores</h1>
+    <table class="table table-bordered">
+	<thead>
+		<tr>
+			<td>Identificación</td>
+			<td>Nombre</td>
+			<td>Correo</td>
+			<td>Cursos</td>
+		</tr>
+	</thead>
+
+	<tbody>
+		{% if profesores %}
+		{% for profesor in profesores %}
+		<tr>
+			<td>{{ profesor.id_profesor }}</td>
+			<td>{{ profesor.nombre }}</td>
+			<td>{{ profesor.correo }}</td>
+			<td><span class="badge badge-primary badge-pill">14</span></td>
+		</tr>
+		{% endfor %}
+
+		{% else %}
+		<h1>No hay registros de profesores</h1>
+
+		{% endif %}
+	</tbody>
+	</table>
+  </div>
+
+  <div class="tab-pane fade" id="nav-estudiantes" role="tabpanel" aria-labelledby="nav-estudiantes-tab">
+  	<h1 class="display-4">Estudiantes</h1>
+
+  	
+    <table class="table table-bordered">
+	<thead>
+		<tr>
+			<td>Identificación</td>
+			<td>Nombre</td>
+			<td>Correo</td>
+			<td>Cursos</td>
+			<td>Confidencialidad</td>
+			<td>Foto</td>
+		</tr>
+	</thead>
+
+	<tbody>
+		{% if estudiantes %}
+		{% for estudiante in estudiantes %}
+		<tr>
+			<td>{{ estudiante.id_estudiante }}</td>
+			<td>{{ estudiante.nombre }}</td>
+			<td>{{ estudiante.correo }}</td>
+			<td>{{ estudiante.curso }}</td>
+			<td>{{ estudiante.confidencialidad }}</td>
+			{% if estudiante.foto %}
+				<td><img src="{{ estudiante.foto.url }}" width="100" height="100" onclick="window.open(this.src)"></td>
+			{% endif %}
+		</tr>
+		{% endfor %}
+
+		{% else %}
+		<h2>No hay registros de estudiantes</h2>
+
+		{% endif %}
+	</tbody>
+	</table>
+  </div>
+</div>
+</div>
+</div>
+
+
+
+
+
+{% endblock %}
